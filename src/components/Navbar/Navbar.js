@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
@@ -7,9 +7,12 @@ import Decor from '../Decor/Decor';
 import Circle from '../Decor/Circle';
 import Triangle from '../Decor/Triangle';
 import Cross from '../Decor/Cross';
+import { AuthContext } from '../../context/AuthContext';
 
 
 export default function Navibar (){
+	const {logout, isLogin} = useContext(AuthContext);
+
 	return(
 			<>
 				<header className="d-flex container-sm align-items-center header-brand">
@@ -23,9 +26,22 @@ export default function Navibar (){
 					</NavLink>
 					<p className="page-subtitle-h header-subtitle">Продай аккаунт, предметы или валюту в популярных онлайн играх</p>
 					<div className="d-flex justify-content-center align-items-end">
-						<NavLink to="/login" className="navbar-link">
-							<Button variant="outline-primary" size="lg">Войти</Button>{' '}
-						</NavLink>
+						{
+							isLogin
+							? 	<>
+									<NavLink to="/account" className="navbar-link">
+										<Button variant="outline-primary mr-3" size="lg">Личный кабинет</Button>{' '}
+									</NavLink>
+									<NavLink to="/" className="navbar-link" onClick={logout}>
+										<Button variant="outline-primary" size="lg">Выйти</Button>{' '}
+									</NavLink>
+								</>
+								
+							: 	<NavLink to="/login" className="navbar-link">
+									<Button variant="outline-primary" size="lg">Войти</Button>{' '}
+								</NavLink>
+						}
+						
 					</div>
 				</header>
 				<Navbar variant="dark" className="d-flex justify-content-center navbar">

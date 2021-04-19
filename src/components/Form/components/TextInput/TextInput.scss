@@ -11,4 +11,10 @@
 	&::-webkit-input-placeholder {
 		color: rgba(255,255,255,0.3);
 	}
+	&[required]:invalid {
+		border: 2px solid rgba(255, 0, 0, 1);
+	}
+	&[required]:not(:focus):valid {
+		border: 2px solid rgba(0, 255, 0, 1);
+	}
 }

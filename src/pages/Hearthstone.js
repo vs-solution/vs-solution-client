@@ -12,8 +12,28 @@ import SocialSubtitle from '../components/Form/components/TextInput/SocialSubtit
 import TextInput from '../components/Form/components/TextInput/TextInput';
 import Form from '../components/Form/Form';
 import Header from '../components/header/Header';
+import { submitData } from '../hooks/submit.hook';
 
 export default class Hearthstone extends React.Component {
+	constructor(props) {
+		super(props)
+
+		this.submitHearthstone = this.submitHearthstone.bind(this);
+	}
+
+	async submitHearthstone(event) {
+		const data = {
+			numberLegendCard: event.target[0].value,
+			numberGoldenCard: event.target[1].value,
+			numberGolds: event.target[2].value,
+			numberDust: event.target[3].value,
+			hsReplayLink: event.target[4].value,
+			price: event.target[5].value,
+			contacts: event.target[6].value
+		};
+		event.preventDefault();
+		submitData('/sell/account/hearthstone', data);
+	}
 	render() {
 		return(
 			<div>
@@ -35,19 +55,21 @@ export default class Hearthstone extends React.Component {
 					<Triangle figure="triangle-hs-form"/>
 					<Square figure="square-hs-form"/>
 				</Decor>
-				<Form id="form">
+				<Form submitHandler={this.submitHearthstone} id="form">
 					<img src="images/pics/hs/hs-item1.png" alt="" className="hs-item1"/>
 					<img src="images/pics/hs/hs-item2.png" alt="" className="hs-item2"/>
 					<img src="images/pics/hs/hs-item3.png" alt="" className="hs-item3"/>
 					<TextInput 
 						title="Сколько на Вашем аккаунте легендарных карт?"
-						placegolder="Например: 10 "
+						placeholder="Например: 10 "
 						name="numberLegendCard"
+						required
 					/>
 					<TextInput 
 						title="Сколько на Вашем аккаунте золотых карт?"
-						placegolder="Например: 10 "
+						placeholder="Например: 10 "
 						name="numberGoldenCard"
+						required
 					/>
 					<Slider 
 						title="Укажите количество золота на Вашем аккаунте"
@@ -67,6 +89,7 @@ export default class Hearthstone extends React.Component {
 						title="Укажите ссылку на Hsreplay"
 						placeholder="Например: https://hsreplay.net/example/909019032"
 						name="hsReplayLink"
+						required
 					>
 						<SocialSubtitle text="https://hsreplay.net/"/>
 					</TextInput>
@@ -81,6 +104,7 @@ export default class Hearthstone extends React.Component {
 						title="Укажите контактную информацию"
 						placeholder="Например: xxxxxxx@gmail.com"
 						name="contacts"
+						required
 					>
 						<SocialSubtitle text="@Telegram , VK , Номер тел. , Эл. почта и т.д."/>
 					</TextInput>

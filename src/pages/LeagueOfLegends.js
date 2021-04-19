@@ -14,8 +14,28 @@ import Circle from '../components/Decor/Circle';
 import Square from '../components/Decor/Square';
 import Triangle from '../components/Decor/Triangle';
 import Cross from '../components/Decor/Cross';
+import { submitData } from '../hooks/submit.hook';
 
 export default class LeagueOfLegends extends React.Component {
+	constructor(props){
+		super(props)
+
+		this.submitLol = this.submitLol.bind(this);
+	}
+	
+	async submitLol(event) {
+		const data = {
+			serverLocation: event.target[0].value,
+			profileLevel: event.target[1].value,
+			numberChamps: event.target[2].value,
+			skins: event.target[3].value,
+			accountDescription: event.target[4].value,
+			screenshot: event.target[5].value,
+			contacts: event.target[6].value
+		}
+		event.preventDefault();
+		submitData('/sell/account/lol', data);
+	}
 	render() {
 		return(
 			<div>
@@ -37,7 +57,7 @@ export default class LeagueOfLegends extends React.Component {
 					<Triangle figure="triangle-lol-form"/>
 					<Cross figure="cross-lol-form" />
 				</Decor>
-				<Form action="#" id="form">
+				<Form submitHandler={this.submitLol} id="form">
 					<img src="images/pics/lol/lol-item1.png" alt="" className="lol-item1"/>
 					<img src="images/pics/lol/lol-item2.png" alt="" className="lol-item2"/>
 					<img src="images/pics/lol/lol-item3.png" alt="" className="lol-item3"/>
@@ -46,35 +66,45 @@ export default class LeagueOfLegends extends React.Component {
 						title="На каком сервере находится Ваш аккаунт?"
 						placeholder="Например: Россия"
 						name="serverLocation"
+						required
 					/>
 					<TextInput 
 						title="Укажите уровень Вашего профиля"
 						placeholder="Например: 10"
 						name="profileLevel"
+						required
 					/>
 					<TextInput 
 						title="Укажите количество чемпионов на Вашем аккаунте"
 						placeholder="Максимально : 154"
 						name="numberChamps"
+						required
 					/>
 					<TextArea 
 						title="Какие скины есть на Вашем аккаунте?"
 						placeholder="Напишите название скинов через запятую"
 						name="skins"
+						required
 					/>
 					<TextArea 
 						title="Опишите подробно свой аккаунт"
 						placeholder="Например : Укажите колличество часов игры, напишите подробнее о скинах на аккаунте и т.д."
 						name="accountDescription"
+						required
 					/>
 					<Upload title="Загрузите скриншот вашего аккаунта">
 						<SocialSubtitle text="Без этого шага Ваша анкета будет недействительна" />
-						<ButtonUpload />
+						<ButtonUpload 
+							btnName="Загрузить файл"
+							name="screenshot"
+							id="screenshot"
+						/>
 					</Upload>
 					<TextInput
 						title="Укажите контактную информацию"
 						placeholder="Например: xxxxxxx@gmail.com"
 						name="contacts"
+						required
 					>
 						<SocialSubtitle text="@Telegram , VK , Номер тел. , Эл. почта и т.д."/>
 					</TextInput>

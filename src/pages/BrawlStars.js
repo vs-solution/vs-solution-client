@@ -9,16 +9,16 @@ import ButtonSubmit from '../components/buttons/ButtonSubmit';
 import Footer from '../components/Footer/Footer';
 import ButtonChoise from '../components/buttons/ButtonChoise';
 import './formImages.scss';
-import axios from 'axios';
+import { submitData } from '../hooks/submit.hook';
 
 export default class BrawlStars extends React.Component {
 	constructor(props){
 		super(props)
 
-		this.submitHandler = this.submitHandler.bind(this);
+		this.submitBrawl = this.submitBrawl.bind(this);
 	}
 	
-	async submitHandler(event) {
+	async submitBrawl(event) {
 		const data = {
 			legendPerson: event.target[0].value,
 			cupNumber: event.target[1].value,
@@ -27,17 +27,7 @@ export default class BrawlStars extends React.Component {
 			contacts: event.target[4].value
 		}
 		event.preventDefault();
-		try {
-			await axios.post('/sell/account/brawl', data, {
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			})
-			.then(response => console.log(response));
-		} catch (error) {
-			console.log(error);
-		}
-		
+		submitData('/sell/account/brawl', data);
 	}
 	render() {
 		return(
@@ -54,7 +44,7 @@ export default class BrawlStars extends React.Component {
 						text="Продать аккаунт"
 					/>
 				</Header>
-				<Form submitHandler={this.submitHandler} id="form">
+				<Form submitHandler={this.submitBrawl} id="form">
 					<img src="images/pics/brawl/brawl-box1.png" alt="" className="brawl-box1" />
 					<img src="images/pics/brawl/brawl-box2.png" alt="" className="brawl-box2" />
 					<img src="images/pics/brawl/brawl-box3.png" alt="" className="brawl-box3" />
@@ -69,11 +59,13 @@ export default class BrawlStars extends React.Component {
 						title="Сколько кубков на Вашем аккаунте?"
 						placeholder="Например: 10 000"
 						name="cupNumber"
+						required
 					/>
 					<TextArea 
 						title="Какие скины есть на Вашем аккаунте?"
 						placeholder="Напишите название скинов через запятую"
 						name="skins"
+						required
 					/>
 					<Slider 
 						title="Укажите цену за которую Вы хотите продать свой аккаунт"
@@ -86,6 +78,7 @@ export default class BrawlStars extends React.Component {
 						title="Укажите контактную информацию"
 						placeholder="Например: xxxxxxx@gmail.com"
 						name="contacts"
+						required
 					>
 						<SocialSubtitle text="@Telegram , VK , Номер тел. , Эл. почта и т.д."/>
 					</TextInput>

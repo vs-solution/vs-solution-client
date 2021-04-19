@@ -1,44 +1,23 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import './App.scss';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Navibar from './components/Navbar/Navbar';
-import Main from './pages/Main';
-import BrawlStars from './pages/BrawlStars';
-import Albion from './pages/Albion';
-import LeagueOfLegends from './pages/LeagueOfLegends';
-import Hearthstone from './pages/Hearthstone';
-import WorldOfWarcraft from './pages/WorldOfWarcraft';
-import Steam from './pages/Steam';
-import Other from './pages/Other';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import { BrowserRouter } from 'react-router-dom';
+import { useRoutes } from './routes';
+import { AuthContext } from './context/AuthContext';
+import { useAuth } from './hooks/AuthHook';
 
+function App() {
+	const { login, logout, token, userId, isReady } = useAuth();
+	const isLogin = !!token;
+	const routes = useRoutes(isLogin);
 
-class App extends React.Component {
-	render() {
-		return(
-			<Router>
-				<div>
-					<Navibar />
-					<Switch>
-						<Route path="/" exact component={Main} />
-						<Route path="/login" component={Login}/>
-						<Route path="/brawl-stars" component={BrawlStars} />
-						<Route path="/albion-online" component={Albion} />
-						<Route path="/league-of-legends" component={LeagueOfLegends} />
-						<Route path="/hearthstone" component={Hearthstone} />
-						<Route path="/world-of-warcraft" component={WorldOfWarcraft} />
-						<Route path="/steam" component={Steam} />
-						<Route path="/other" component={Other} />
-						<Route path="/login" component={Login} />
-						<Route path="/register" component={Register} />
-					</Switch>
-
-				</div>
-			</Router>
-		)
-	}
-};
+	return (
+		<AuthContext.Provider value={{login, logout, token, userId, isReady, isLogin}}>
+			<>
+				<BrowserRouter>
+					{routes}
+				</BrowserRouter>
+			</>
+		</AuthContext.Provider>
+	)
+}
 
 export default App;

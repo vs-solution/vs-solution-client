@@ -15,8 +15,26 @@ import TextInput from '../components/Form/components/TextInput/TextInput';
 import Upload from '../components/Form/components/Upload/Upload';
 import Form from '../components/Form/Form';
 import Header from '../components/header/Header';
+import { submitData } from '../hooks/submit.hook';
 
 export default class Other extends React.Component {
+	constructor(props){
+		super(props)
+
+		this.submitOther = this.submitOther.bind(this);
+	}
+	
+	async submitOther(event) {
+		const data = {
+			gameName: event.target[0].value,
+			accDescription: event.target[1].value,
+			price: event.target[2].value,
+			screenshot: event.target[3].value,
+			contacts: event.target[4].value
+		}
+		event.preventDefault();
+		submitData('/sell/account/other', data);
+	}
 	render() {
 		return (
 			<div>
@@ -38,7 +56,7 @@ export default class Other extends React.Component {
 					<Square figure="square-other-form"/>
 					<Triangle figure="triangle-other-form"/>
 				</Decor>
-				<Form action="#" id="form">
+				<Form submitHandler={this.submitOther} id="form">
 					<img src="images/pics/other/other-item1.png" alt="" className="other-item1"/>
 					<img src="images/pics/other/other-item2.png" alt="" className="other-item2"/>
 					<img src="images/pics/other/other-item3.png" alt="" className="other-item3"/>
@@ -46,11 +64,13 @@ export default class Other extends React.Component {
 						title="Укажите название игры"
 						placeholder="Например: Overwatch"
 						name="gameName"
+						required
 					/>
 					<TextArea
 						title="Создайте детальное описание Вашего аккаунта:"
 						placeholder="Например: наличие редких предметов и их названия и т.д."
 						name="accDescription"
+						required
 					>
 						<SocialSubtitle text="Описание помогает нашим сотрудникам максимально быстро рассмотреть Ваше предложение"/>
 					</TextArea>
@@ -63,12 +83,17 @@ export default class Other extends React.Component {
 					/>
 					<Upload title="Загрузите скриншот Вашего аккаунта/вещи">
 						<SocialSubtitle text="Без этого шага Ваша анкета будет недействительна"/>
-						<ButtonUpload />
+						<ButtonUpload 
+							btnName="Загрузить файл"
+							name="screenshot"
+							id="screenshot"
+						/>
 					</Upload>
 					<TextInput 
 						title="Укажите контактную информацию"
 						placeholder="Например: xxxxxxx@gmail.com"
 						name="contacts"
+						required
 					>
 						<SocialSubtitle text="@Telegram , VK , Номер тел. , Эл. почта и т.д."/>
 					</TextInput>

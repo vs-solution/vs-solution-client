@@ -1,21 +1,40 @@
-import React from 'react';
-import ButtonChoise from '../components/buttons/ButtonChoise';
-import ButtonSubmit from '../components/buttons/ButtonSubmit';
-import Circle from '../components/Decor/Circle';
-import Cross from '../components/Decor/Cross';
-import Decor from '../components/Decor/Decor';
-import Square from '../components/Decor/Square';
-import Triangle from '../components/Decor/Triangle';
-import Footer from '../components/Footer/Footer';
-import Radio from '../components/Form/components/Radio/Radio';
-import Slider from '../components/Form/components/Slider/Slider';
-import TextArea from '../components/Form/components/TextArea/TextArea';
-import SocialSubtitle from '../components/Form/components/TextInput/SocialSubtitle';
-import TextInput from '../components/Form/components/TextInput/TextInput';
-import Form from '../components/Form/Form';
-import Header from '../components/header/Header';
+import React 			from 'react';
+import ButtonChoise 	from '../components/buttons/ButtonChoise';
+import ButtonSubmit 	from '../components/buttons/ButtonSubmit';
+import Circle 			from '../components/Decor/Circle';
+import Cross 			from '../components/Decor/Cross';
+import Decor 			from '../components/Decor/Decor';
+import Square 			from '../components/Decor/Square';
+import Triangle 		from '../components/Decor/Triangle';
+import Footer 			from '../components/Footer/Footer';
+import Radio 			from '../components/Form/components/Radio/Radio';
+import Slider 			from '../components/Form/components/Slider/Slider';
+import TextArea 		from '../components/Form/components/TextArea/TextArea';
+import SocialSubtitle 	from '../components/Form/components/TextInput/SocialSubtitle';
+import TextInput 		from '../components/Form/components/TextInput/TextInput';
+import Form 			from '../components/Form/Form';
+import Header 			from '../components/header/Header';
+import { submitData } 	from '../hooks/submit.hook';
 
 export default class WorldOfWarcraft extends React.Component {
+	constructor(props){
+		super(props)
+
+		this.submitWow = this.submitWow.bind(this);
+	}
+	
+	async submitWow(event) {
+		const data = {
+			subscribe: event.target[0].checked ? event.target[0].value : event.target[1].value,
+			armoryLink: event.target[2].value,
+			goldsPerHero: event.target[3].value,
+			price: event.target[4].value,
+			accDescription: event.target[5].value,
+			contacts: event.target[6].value
+		}
+		event.preventDefault();
+		submitData('/sell/account/wow', data);
+	}
 	render() {
 		return(
 			<div>
@@ -37,7 +56,7 @@ export default class WorldOfWarcraft extends React.Component {
 					<Square figure="square-wow-form"/>
 					<Triangle figure="triangle-wow-form"/>
 				</Decor>
-				<Form action="#" id="form">
+				<Form submitHandler={this.submitWow} id="form">
 					<img src="images/pics/wow/wow-item1.png" alt="" className="wow-item1"/>
 					<img src="images/pics/wow/wow-item2.png" alt="" className="wow-item2"/>
 					<img src="images/pics/wow/wow-item3.png" alt="" className="wow-item3"/>
@@ -45,7 +64,11 @@ export default class WorldOfWarcraft extends React.Component {
 						title="Уточните, присутствует ли на Вашем аккаунте оплаченная подписка?"
 						name="subscribe"
 					/>
-					<TextInput title="Укажите ссылку на самого прокаченного персонажа">
+					<TextInput 
+						title="Укажите ссылку на самого прокаченного персонажа"
+						name="armoryLink"
+						required
+					>
 						<SocialSubtitle text="Предоставь ссылку на Armory"/>
 					</TextInput>
 					<Slider 
@@ -66,11 +89,13 @@ export default class WorldOfWarcraft extends React.Component {
 						title="Опишите Ваш аккаунт более детально"
 						placeholder="Например: наличие редких предметов и их названия и т.д."
 						name="accDescription"
+						required
 					/>
 					<TextInput 
 						title="Укажите контактную информацию"
 						placeholder="Например: xxxxxxx@gmail.com"
 						name="contacts"
+						required
 					>
 						<SocialSubtitle text="@Telegram , VK , Номер тел. , Эл. почта и т.д."/>
 					</TextInput>

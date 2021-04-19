@@ -5,8 +5,19 @@ export default class ButtonUpload extends React.Component {
 	render() {
 		return(
 			<>
-				<button type="file" className="button-upload">Загрузить файл</button>
+				<label 
+					htmlFor={this.props.id} 
+					className="button-upload d-flex justify-content-center align-items-center"
+				>
+					{this.props.btnName}
+				</label>
+				<input 
+						type="file"
+						name={this.props.name}
+						id={this.props.id}
+				/>
 			</>
+			
 		)
 	};
 };

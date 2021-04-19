@@ -12,7 +12,8 @@ export default class TextArea extends React.Component {
 					id={this.props.name} 
 					placeholder={this.props.placeholder} 
 					name={this.props.name}
-					onChange={this.props.changeHandler}	
+					onChange={this.props.changeHandler}
+					required={this.props.required ? true : null}	
 				>
 
 				</textarea>

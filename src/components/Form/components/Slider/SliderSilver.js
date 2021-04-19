@@ -1,25 +1,22 @@
 import React from 'react';
 import './Slider.scss';
 
-export default class Slider extends React.Component {
+export default class SliderSilver extends React.Component {
 	constructor(props) {
 		super(props)
-		this.state = {value: ''};
+		this.state = {value: this.props.max / 2};
 		
 		this.handleChange = this.handleChange.bind(this);
-		this.checkPrice = this.checkPrice.bind(this);
+		this.convertSilver = this.convertSilver.bind(this);
 	}
 	handleChange(event) {
 		this.setState({value: event.target.value});
 	}
-	checkPrice(name) {
-		if (name === 'price') {
-			return this.state.value ? '₽' + this.state.value : '₽' + (this.props.max/2)
-		} else if (name === 'dollar') {
-			return this.state.value ? '$' + this.state.value : '$' + (this.props.max/2)
-		} else {
-			return this.state.value ? this.state.value : (this.props.max/2)
-		}
+	convertSilver() {
+		const silver = this.state.value.toString();
+		const subString = silver.substr(0, silver.length - 6);
+		const convert = subString * 0.56;
+		return convert.toFixed(2) + "$";
 	}
 	render() {
 		return (
@@ -28,7 +25,7 @@ export default class Slider extends React.Component {
 				{this.props.children}
 				<div className="slider-value">
 					<span className="thumb page-subtitle d-flex align-items-center justify-content-center">
-						{this.checkPrice(this.props.name)}
+						{this.state.value}
 					</span>
 				</div>
 				<div className="slider-field d-flex align-items-center justify-content-center">
@@ -44,6 +41,10 @@ export default class Slider extends React.Component {
 						step={this.props.step}
 					/>
 					<div className="value right page-subtitle">{this.props.max}</div>
+				</div>
+				<div className="pt-5">
+					<p className="page-title-label pb-3 pt-5">Расчетная стоимость Вашего серебра составляет:</p>
+					<p className="page-title-min">{this.convertSilver()}</p>
 				</div>
 			</label>
 		)

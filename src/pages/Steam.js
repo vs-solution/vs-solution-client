@@ -14,8 +14,26 @@ import TextInput from '../components/Form/components/TextInput/TextInput';
 import Upload from '../components/Form/components/Upload/Upload';
 import Form from '../components/Form/Form';
 import Header from '../components/header/Header';
+import { submitData } from '../hooks/submit.hook';
 
 export default class Steam extends React.Component {
+	constructor(props){
+		super(props)
+
+		this.submitSteam = this.submitSteam.bind(this);
+	}
+	
+	async submitSteam(event) {
+		const data = {
+			itemName: event.target[0].value,
+			itemPrice: event.target[1].value,
+			dollar: event.target[2].value,
+			screenshot: event.target[3].value,
+			contacts: event.target[4].value
+		}
+		event.preventDefault();
+		submitData('/sell/account/steam', data);
+	}
 	render() {
 		return(
 			<div>
@@ -37,7 +55,7 @@ export default class Steam extends React.Component {
 					<Square figure="square-steam-form"/>
 					<Triangle figure="triangle-steam-form"/>
 				</Decor>
-				<Form action="#" id="form">
+				<Form submitHandler={this.submitSteam} id="form">
 					<img src="images/pics/steam/steam-item1.png" alt="" className="steam-item1"/>
 					<img src="images/pics/steam/steam-item2.png" alt="" className="steam-item2"/>
 					<img src="images/pics/steam/steam-item3.png" alt="" className="steam-item3"/>
@@ -46,11 +64,13 @@ export default class Steam extends React.Component {
 						title="Напиши название предмета, указанное в торговой площадке"
 						placeholder="Например: Arms of Desolation"
 						name="itemName"
+						required
 					/>
 					<TextInput 
 						title="Укажите цену продаваемой вещи на торговой площадке Steam"
 						placeholder="Например: $3.25"
 						name="itemPrice"
+						required
 					/>
 					<Slider 
 						title="Укажите цену за которую Вы хотите продать свою вещь"
@@ -61,12 +81,17 @@ export default class Steam extends React.Component {
 					/>
 					<Upload title="Загрузите скриншот Вашей вещи">
 						<SocialSubtitle text="На СКРИНШОТЕ должна быть отображена следующая информация:Название предмета, Актуальная цена, Общее описание предмета"/>
-						<ButtonUpload />
+						<ButtonUpload 
+							btnName="Загрузить файл"
+							name="screenshot"
+							id="screenshot"
+						/>
 					</Upload>
 					<TextInput 
 						title="Укажите контактную информацию"
 						placeholder="Например: xxxxxxx@gmail.com"
 						name="contacts"
+						required
 					>
 						<SocialSubtitle text="@Telegram , VK , Номер тел. , Эл. почта и т.д."/>
 					</TextInput>
