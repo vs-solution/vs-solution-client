@@ -1,28 +1,35 @@
-import React from 'react';
-import ButtonChoise from '../components/buttons/ButtonChoise';
-import ButtonSubmit from '../components/buttons/ButtonSubmit';
-import Circle from '../components/Decor/Circle';
-import Cross from '../components/Decor/Cross';
-import Decor from '../components/Decor/Decor';
-import Square from '../components/Decor/Square';
-import Triangle from '../components/Decor/Triangle';
-import Footer from '../components/Footer/Footer';
-import Slider from '../components/Form/components/Slider/Slider';
-import SocialSubtitle from '../components/Form/components/TextInput/SocialSubtitle';
-import TextInput from '../components/Form/components/TextInput/TextInput';
-import Form from '../components/Form/Form';
-import Header from '../components/header/Header';
-import { submitData } from '../hooks/submit.hook';
+import React 			from 'react';
+import ButtonChoise 	from '../components/buttons/ButtonChoise';
+import ButtonSubmit 	from '../components/buttons/ButtonSubmit';
+import Circle 			from '../components/Decor/Circle';
+import Cross 			from '../components/Decor/Cross';
+import Decor 			from '../components/Decor/Decor';
+import Square 			from '../components/Decor/Square';
+import Triangle 		from '../components/Decor/Triangle';
+import Footer 			from '../components/Footer/Footer';
+import { Modal } 		from '../components/Form/components/Modal/Modal';
+import Slider 			from '../components/Form/components/Slider/Slider';
+import SocialSubtitle 	from '../components/Form/components/TextInput/SocialSubtitle';
+import TextInput 		from '../components/Form/components/TextInput/TextInput';
+import Form 			from '../components/Form/Form';
+import Header 			from '../components/header/Header';
+import { submitData } 	from '../hooks/submit.hook';
 
 export default class Hearthstone extends React.Component {
 	constructor(props) {
 		super(props)
-
+		this.state = {
+			modalActive: false,
+			userData: JSON.parse(localStorage.getItem('userData'))
+		}
 		this.submitHearthstone = this.submitHearthstone.bind(this);
 	}
 
 	async submitHearthstone(event) {
 		const data = {
+			gameName: "Hearthstone",
+			userId: this.state.userData.userId,
+			name: this.state.userData.name,
 			numberLegendCard: event.target[0].value,
 			numberGoldenCard: event.target[1].value,
 			numberGolds: event.target[2].value,
@@ -32,7 +39,8 @@ export default class Hearthstone extends React.Component {
 			contacts: event.target[6].value
 		};
 		event.preventDefault();
-		submitData('/sell/account/hearthstone', data);
+		submitData('https://vs-solution-test.herokuapp.com/sell/account/hearthstone', data);
+		this.setState({modalActive: true});
 	}
 	render() {
 		return(
@@ -56,6 +64,7 @@ export default class Hearthstone extends React.Component {
 					<Square figure="square-hs-form"/>
 				</Decor>
 				<Form submitHandler={this.submitHearthstone} id="form">
+					<Modal active={this.state.modalActive} />
 					<img src="images/pics/hs/hs-item1.png" alt="" className="hs-item1"/>
 					<img src="images/pics/hs/hs-item2.png" alt="" className="hs-item2"/>
 					<img src="images/pics/hs/hs-item3.png" alt="" className="hs-item3"/>

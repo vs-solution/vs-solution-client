@@ -1,40 +1,54 @@
-import React from 'react';
-import ButtonChoise from '../components/buttons/ButtonChoise';
-import TextArea from '../components/Form/components/TextArea/TextArea';
-import TextInput from '../components/Form/components/TextInput/TextInput';
-import Upload from '../components/Form/components/Upload/Upload';
-import Form from '../components/Form/Form';
-import Header from '../components/header/Header';
-import SocialSubtitle from '../components/Form/components/TextInput/SocialSubtitle';
-import ButtonUpload from '../components/buttons/ButtonUpload';
-import Footer from '../components/Footer/Footer';
-import ButtonSubmit from '../components/buttons/ButtonSubmit';
-import Decor from '../components/Decor/Decor';
-import Circle from '../components/Decor/Circle';
-import Square from '../components/Decor/Square';
-import Triangle from '../components/Decor/Triangle';
-import Cross from '../components/Decor/Cross';
-import { submitData } from '../hooks/submit.hook';
+import React 			from 'react';
+import ButtonChoise 	from '../components/buttons/ButtonChoise';
+import TextArea 		from '../components/Form/components/TextArea/TextArea';
+import TextInput 		from '../components/Form/components/TextInput/TextInput';
+import Upload 			from '../components/Form/components/Upload/Upload';
+import Form 			from '../components/Form/Form';
+import Header 			from '../components/header/Header';
+import SocialSubtitle 	from '../components/Form/components/TextInput/SocialSubtitle';
+import ButtonUpload 	from '../components/buttons/ButtonUpload';
+import Footer 			from '../components/Footer/Footer';
+import ButtonSubmit 	from '../components/buttons/ButtonSubmit';
+import Decor 			from '../components/Decor/Decor';
+import Circle 			from '../components/Decor/Circle';
+import Square 			from '../components/Decor/Square';
+import Triangle 		from '../components/Decor/Triangle';
+import Cross 			from '../components/Decor/Cross';
+import { Modal } 		from '../components/Form/components/Modal/Modal';
+import axios			from 'axios';
 
 export default class LeagueOfLegends extends React.Component {
 	constructor(props){
 		super(props)
-
+		this.state = {
+			modalActive: false,
+			userData: JSON.parse(localStorage.getItem('userData'))
+		}
 		this.submitLol = this.submitLol.bind(this);
 	}
 	
 	async submitLol(event) {
-		const data = {
-			serverLocation: event.target[0].value,
-			profileLevel: event.target[1].value,
-			numberChamps: event.target[2].value,
-			skins: event.target[3].value,
-			accountDescription: event.target[4].value,
-			screenshot: event.target[5].value,
-			contacts: event.target[6].value
-		}
+		const data = new FormData();
+		data.append("gameName", "League of Legends")
+		data.append("userId", this.state.userData.userId);
+		data.append("name", this.state.userData.name);
+		data.append("serverLocation", event.target[0].value);
+		data.append("profileLevel", event.target[1].value);
+		data.append("numberChamps", event.target[2].value);
+		data.append("skins", event.target[3].value);
+		data.append("accountDescription", event.target[4].value);
+		data.append("screenshot", event.target[5].files[0]);
+		data.append("contacts", event.target[6].value);
+		
 		event.preventDefault();
-		submitData('/sell/account/lol', data);
+		await axios.post('https://vs-solution-test.herokuapp.com/sell/account/lol', data, {
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			}
+		})
+		.then(response => console.log(response))
+		.catch(e => console.log(e));
+		this.setState({modalActive: true});
 	}
 	render() {
 		return(
@@ -58,6 +72,7 @@ export default class LeagueOfLegends extends React.Component {
 					<Cross figure="cross-lol-form" />
 				</Decor>
 				<Form submitHandler={this.submitLol} id="form">
+					<Modal active={this.state.modalActive} />
 					<img src="images/pics/lol/lol-item1.png" alt="" className="lol-item1"/>
 					<img src="images/pics/lol/lol-item2.png" alt="" className="lol-item2"/>
 					<img src="images/pics/lol/lol-item3.png" alt="" className="lol-item3"/>

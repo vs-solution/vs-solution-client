@@ -17,14 +17,13 @@ const AuthPage = () => {
 				password: event.target[1].value
 			};
 		try {
-			await axios.post('/api/auth/login', data, {
+			await axios.post('https://vs-solution-test.herokuapp.com/api/auth/login', data, {
 				headers: {
 					'Content-Type': 'application/json'
 				}
 			}).then(response => {
-				login(response.data.token, response.data.userId);
+				login(response.data.token, response.data.userId, response.data.name);
 			})
-			
 		} catch (error) {
 			console.log(error);
 		}
@@ -37,11 +36,11 @@ const AuthPage = () => {
 			password: event.target[2].value
 		};
 		try {
-			await axios.post('/api/auth/register', data, {
+			await axios.post('https://vs-solution-test.herokuapp.com/api/auth/register', data, {
 				headers: {
 					'Content-Type': 'application/json'
 				}
-			}).then(response => console.log(response))
+			}).then(response => console.log(response));
 		} catch (error) {
 			console.log(error);
 		}
@@ -91,6 +90,7 @@ const AuthPage = () => {
 									placeholder="Имя или Фамилия или Nickname"
 									name="name"
 									type="text"
+									required
 								/>
 								<TextInput 
 									title="Введите пароль"

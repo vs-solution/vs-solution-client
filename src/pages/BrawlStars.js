@@ -1,25 +1,32 @@
-import React from 'react';
-import Form from '../components/Form/Form';
-import Header from '../components/header/Header';
-import Slider from '../components/Form/components/Slider/Slider';
-import TextInput from '../components/Form/components/TextInput/TextInput';
-import TextArea from '../components/Form/components/TextArea/TextArea';
-import SocialSubtitle from '../components/Form/components/TextInput/SocialSubtitle';
-import ButtonSubmit from '../components/buttons/ButtonSubmit';
-import Footer from '../components/Footer/Footer';
-import ButtonChoise from '../components/buttons/ButtonChoise';
+import React 			from 'react';
+import Form 			from '../components/Form/Form';
+import Header 			from '../components/header/Header';
+import Slider 			from '../components/Form/components/Slider/Slider';
+import TextInput 		from '../components/Form/components/TextInput/TextInput';
+import TextArea 		from '../components/Form/components/TextArea/TextArea';
+import SocialSubtitle 	from '../components/Form/components/TextInput/SocialSubtitle';
+import ButtonSubmit 	from '../components/buttons/ButtonSubmit';
+import Footer 			from '../components/Footer/Footer';
+import ButtonChoise 	from '../components/buttons/ButtonChoise';
+import { submitData } 	from '../hooks/submit.hook';
+import { Modal } 		from '../components/Form/components/Modal/Modal';
 import './formImages.scss';
-import { submitData } from '../hooks/submit.hook';
 
-export default class BrawlStars extends React.Component {
+class BrawlStars extends React.Component {
 	constructor(props){
 		super(props)
-
+		this.state = {
+			modalActive: false,
+			userData: JSON.parse(localStorage.getItem('userData'))
+		}
 		this.submitBrawl = this.submitBrawl.bind(this);
 	}
 	
 	async submitBrawl(event) {
 		const data = {
+			gameName: 'Brawl Stars',
+			userId: this.state.userData.userId,
+			name: this.state.userData.name,
 			legendPerson: event.target[0].value,
 			cupNumber: event.target[1].value,
 			skins: event.target[2].value,
@@ -27,7 +34,8 @@ export default class BrawlStars extends React.Component {
 			contacts: event.target[4].value
 		}
 		event.preventDefault();
-		submitData('/sell/account/brawl', data);
+		submitData('https://vs-solution-test.herokuapp.com/sell/account/brawl', data);
+		this.setState({modalActive: true});
 	}
 	render() {
 		return(
@@ -45,6 +53,7 @@ export default class BrawlStars extends React.Component {
 					/>
 				</Header>
 				<Form submitHandler={this.submitBrawl} id="form">
+					<Modal active={this.state.modalActive} />
 					<img src="images/pics/brawl/brawl-box1.png" alt="" className="brawl-box1" />
 					<img src="images/pics/brawl/brawl-box2.png" alt="" className="brawl-box2" />
 					<img src="images/pics/brawl/brawl-box3.png" alt="" className="brawl-box3" />
@@ -89,3 +98,5 @@ export default class BrawlStars extends React.Component {
 		)
 	}
 };
+
+export default BrawlStars;

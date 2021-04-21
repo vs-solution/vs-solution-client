@@ -14,7 +14,6 @@ import Other from './pages/Other';
 import AuthPage from './pages/AuthPage';
 import Account from './pages/Account';
 
-
 export const useRoutes = (isLogin) => {
 	if (isLogin) {
 		return(

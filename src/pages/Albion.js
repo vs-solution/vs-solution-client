@@ -1,3 +1,4 @@
+import axios 			from 'axios';
 import React 			from 'react';
 import ButtonChoise 	from '../components/buttons/ButtonChoise';
 import ButtonSubmit 	from '../components/buttons/ButtonSubmit';
@@ -8,6 +9,7 @@ import Decor 			from '../components/Decor/Decor';
 import Square 			from '../components/Decor/Square';
 import Triangle 		from '../components/Decor/Triangle';
 import Footer 			from '../components/Footer/Footer';
+import { Modal } 		from '../components/Form/components/Modal/Modal';
 import Slider 			from '../components/Form/components/Slider/Slider';
 import SliderSilver 	from '../components/Form/components/Slider/SliderSilver';
 import TextArea 		from '../components/Form/components/TextArea/TextArea';
@@ -21,29 +23,47 @@ import { submitData } 	from '../hooks/submit.hook';
 class Albion extends React.Component {
 	constructor(props) {
 		super(props)
-
+		this.state = {
+			modalActive: false,
+			modalActiveSilver: false,
+			userData: JSON.parse(localStorage.getItem('userData'))
+		}
 		this.submitAlbion = this.submitAlbion.bind(this);
 		this.sellSilver = this.sellSilver.bind(this);
 	}
 	
 	async submitAlbion(event) {
-		const data = {
-			accountFame: event.target[0].value,
-			valueProperty: event.target[1].value,
-			price: event.target[2].value,
-			screenshot: event.target[3].value,
-			contacts: event.target[4].value
-		}
+		const data = new FormData();
+		data.append("gameName", "Albion Online")
+		data.append("userId", this.state.userData.userId);
+		data.append("name", this.state.userData.name);
+		data.append("accountFame", event.target[0].value);
+		data.append("valueProperty", event.target[1].value);
+		data.append("price", event.target[2].value);
+		data.append("contacts", event.target[4].value);
+		data.append("screenshot", event.target[3].files[0]);
+		
 		event.preventDefault();
-		submitData('/sell/account/albion', data);
+		await axios.post('https://vs-solution-test.herokuapp.com/sell/account/albion', data, {
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			}
+		})
+		.then(response => console.log(response))
+		.catch(e => console.log(e));
+		this.setState({modalActive: true});
 	}
 	async sellSilver(event) {
 		const data = {
+			gameName: "Albion Online",
+			userId: this.state.userData.userId,
+			name: this.state.userData.name,
 			numberSilver: event.target[0].value,
 			contacts: event.target[1].value
 		}
 		event.preventDefault();
-		submitData('/sell/currency/albion', data);
+		submitData('https://vs-solution-test.herokuapp.com/sell/currency/albion', data);
+		this.setState({modalActiveSilver: true});
 	}
 	render() {
 		return (
@@ -72,6 +92,7 @@ class Albion extends React.Component {
 					<Cross figure="cross-albion-form" />
 				</Decor>
 				<Form submitHandler={this.submitAlbion} id="form">
+					<Modal active={this.state.modalActive} />
 					<img src="images/pics/albion/albion-item1.png" alt="" className="albion-item1" />
 					<img src="images/pics/albion/albion-item2.png" alt="" className="albion-item2" />
 					<Slider 
@@ -115,6 +136,7 @@ class Albion extends React.Component {
 					<ButtonSubmit />
 				</Form>
 				<Form submitHandler={this.sellSilver} id="sell-form">
+					<Modal active={this.state.modalActiveSilver} />
 					<img src="images/pics/albion/albion-item3.png" alt="" className="albion-item3" />
 					<img src="images/pics/albion/albion-item4.png" alt="" className="albion-item4" />
 					<SliderSilver

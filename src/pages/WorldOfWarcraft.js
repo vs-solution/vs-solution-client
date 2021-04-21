@@ -7,6 +7,7 @@ import Decor 			from '../components/Decor/Decor';
 import Square 			from '../components/Decor/Square';
 import Triangle 		from '../components/Decor/Triangle';
 import Footer 			from '../components/Footer/Footer';
+import { Modal } 		from '../components/Form/components/Modal/Modal';
 import Radio 			from '../components/Form/components/Radio/Radio';
 import Slider 			from '../components/Form/components/Slider/Slider';
 import TextArea 		from '../components/Form/components/TextArea/TextArea';
@@ -19,12 +20,18 @@ import { submitData } 	from '../hooks/submit.hook';
 export default class WorldOfWarcraft extends React.Component {
 	constructor(props){
 		super(props)
-
+		this.state = {
+			modalActive: false,
+			userData: JSON.parse(localStorage.getItem('userData'))
+		}
 		this.submitWow = this.submitWow.bind(this);
 	}
 	
 	async submitWow(event) {
 		const data = {
+			gameName: "World of Warcraft",
+			userId: this.state.userData.userId,
+			name: this.state.userData.name,
 			subscribe: event.target[0].checked ? event.target[0].value : event.target[1].value,
 			armoryLink: event.target[2].value,
 			goldsPerHero: event.target[3].value,
@@ -33,7 +40,8 @@ export default class WorldOfWarcraft extends React.Component {
 			contacts: event.target[6].value
 		}
 		event.preventDefault();
-		submitData('/sell/account/wow', data);
+		submitData('https://vs-solution-test.herokuapp.com/sell/account/wow', data);
+		this.setState({modalActive: true});
 	}
 	render() {
 		return(
@@ -57,6 +65,7 @@ export default class WorldOfWarcraft extends React.Component {
 					<Triangle figure="triangle-wow-form"/>
 				</Decor>
 				<Form submitHandler={this.submitWow} id="form">
+					<Modal active={this.state.modalActive} />
 					<img src="images/pics/wow/wow-item1.png" alt="" className="wow-item1"/>
 					<img src="images/pics/wow/wow-item2.png" alt="" className="wow-item2"/>
 					<img src="images/pics/wow/wow-item3.png" alt="" className="wow-item3"/>

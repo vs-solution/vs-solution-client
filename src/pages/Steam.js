@@ -1,38 +1,52 @@
-import React from 'react';
-import ButtonChoise from '../components/buttons/ButtonChoise';
-import ButtonSubmit from '../components/buttons/ButtonSubmit';
-import ButtonUpload from '../components/buttons/ButtonUpload';
-import Circle from '../components/Decor/Circle';
-import Cross from '../components/Decor/Cross';
-import Decor from '../components/Decor/Decor';
-import Square from '../components/Decor/Square';
-import Triangle from '../components/Decor/Triangle';
-import Footer from '../components/Footer/Footer';
-import Slider from '../components/Form/components/Slider/Slider';
-import SocialSubtitle from '../components/Form/components/TextInput/SocialSubtitle';
-import TextInput from '../components/Form/components/TextInput/TextInput';
-import Upload from '../components/Form/components/Upload/Upload';
-import Form from '../components/Form/Form';
-import Header from '../components/header/Header';
-import { submitData } from '../hooks/submit.hook';
+import React 			from 'react';
+import ButtonChoise 	from '../components/buttons/ButtonChoise';
+import ButtonSubmit 	from '../components/buttons/ButtonSubmit';
+import ButtonUpload 	from '../components/buttons/ButtonUpload';
+import Circle 			from '../components/Decor/Circle';
+import Cross 			from '../components/Decor/Cross';
+import Decor 			from '../components/Decor/Decor';
+import Square 			from '../components/Decor/Square';
+import Triangle 		from '../components/Decor/Triangle';
+import Footer 			from '../components/Footer/Footer';
+import { Modal } 		from '../components/Form/components/Modal/Modal';
+import Slider 			from '../components/Form/components/Slider/Slider';
+import SocialSubtitle 	from '../components/Form/components/TextInput/SocialSubtitle';
+import TextInput 		from '../components/Form/components/TextInput/TextInput';
+import Upload 			from '../components/Form/components/Upload/Upload';
+import Form 			from '../components/Form/Form';
+import Header 			from '../components/header/Header';
+import axios			from 'axios';
 
 export default class Steam extends React.Component {
 	constructor(props){
 		super(props)
-
+		this.state = {
+			modalActive: false,
+			userData: JSON.parse(localStorage.getItem('userData'))
+		}
 		this.submitSteam = this.submitSteam.bind(this);
 	}
 	
 	async submitSteam(event) {
-		const data = {
-			itemName: event.target[0].value,
-			itemPrice: event.target[1].value,
-			dollar: event.target[2].value,
-			screenshot: event.target[3].value,
-			contacts: event.target[4].value
-		}
+		const data = new FormData();
+		data.append("gameName", "Steam")
+		data.append("userId", this.state.userData.userId);
+		data.append("name", this.state.userData.name);
+		data.append("itemName", event.target[0].value);
+		data.append("itemPrice", event.target[1].value);
+		data.append("dollar", event.target[2].value);
+		data.append("screenshot", event.target[3].files[0]);
+		data.append("contacts", event.target[4].value);
+		
 		event.preventDefault();
-		submitData('/sell/account/steam', data);
+		await axios.post('https://vs-solution-test.herokuapp.com/sell/account/steam', data, {
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			}
+		})
+		.then(response => console.log(response))
+		.catch(e => console.log(e));
+		this.setState({modalActive: true});
 	}
 	render() {
 		return(
@@ -56,6 +70,7 @@ export default class Steam extends React.Component {
 					<Triangle figure="triangle-steam-form"/>
 				</Decor>
 				<Form submitHandler={this.submitSteam} id="form">
+					<Modal active={this.state.modalActive} /> 
 					<img src="images/pics/steam/steam-item1.png" alt="" className="steam-item1"/>
 					<img src="images/pics/steam/steam-item2.png" alt="" className="steam-item2"/>
 					<img src="images/pics/steam/steam-item3.png" alt="" className="steam-item3"/>
