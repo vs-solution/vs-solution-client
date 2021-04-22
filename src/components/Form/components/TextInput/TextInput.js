@@ -11,6 +11,7 @@ export default class TextInput extends React.Component {
 				<input 
 					className="text-input page-title-label" 
 					type={this.props.type ? this.props.type : "text" }
+					max={this.props.type === "number" ? this.props.max : null}
 					id={this.props.name} 
 					name={this.props.name} 
 					placeholder={this.props.placeholder} 

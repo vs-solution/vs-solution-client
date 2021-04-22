@@ -1,15 +1,21 @@
-import React, { useContext } from 'react';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
 import ButtonSubmit from '../components/buttons/ButtonSubmit';
 import Footer from '../components/Footer/Footer';
 import TextInput from '../components/Form/components/TextInput/TextInput';
 import Form from '../components/Form/Form';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
+import Message from '../components/Form/components/Message/Message';
 
 const AuthPage = () => {
 	const { login } = useContext(AuthContext);
-	
+	const [loginVisible, setLoginVisible] = useState(false);
+	const [loginMessage, setLoginMessage] = useState('');
+	const [regVisible, setRegVisible] = useState(false);
+	const [regMessage, setRegMessage] = useState('');
+	const [created, setCreated] = useState(false);
+
 	const loginHandler = async (event) => {
 		event.preventDefault();
 		const data = {
@@ -22,12 +28,18 @@ const AuthPage = () => {
 					'Content-Type': 'application/json'
 				}
 			}).then(response => {
+				if (response.status === 202) {
+					setLoginMessage(response.data.message);
+					setLoginVisible(true);
+				}
 				login(response.data.token, response.data.userId, response.data.name);
+				console.log(response);
 			})
 		} catch (error) {
 			console.log(error);
 		}
 	};
+	
 	const registerHandler = async (event) => {
 		event.preventDefault();
 		const data = {
@@ -40,7 +52,15 @@ const AuthPage = () => {
 				headers: {
 					'Content-Type': 'application/json'
 				}
-			}).then(response => console.log(response));
+			}).then(response => {
+				if (response.status === 202) {
+					setRegMessage(response.data.message);
+					setRegVisible(true)
+				}
+				if (response.statusText === "Created") {
+					setCreated(true);
+				}
+			});
 		} catch (error) {
 			console.log(error);
 		}
@@ -52,6 +72,7 @@ const AuthPage = () => {
 					<React.Fragment>
 						<Route path="/login">
 							<Form formTitle="Заполните поля для входа в систему" submitHandler={loginHandler}>
+								<Message visible={loginVisible} message={loginMessage} />
 								<TextInput 
 									title="Введите адрес электронной почты"
 									placeholder="Например: example@mail.ru"
@@ -78,6 +99,12 @@ const AuthPage = () => {
 
 						<Route path="/register">
 							<Form formTitle="Заполните поля для регистрации в системе" submitHandler={registerHandler}>
+								<Message visible={regVisible} message={regMessage} />
+								{
+									created
+									? <Redirect to="/login" />
+									: null
+								}
 								<TextInput 
 									title="Введите адрес электронной почты"
 									placeholder="Например: example@mail.ru"

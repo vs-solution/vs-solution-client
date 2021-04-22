@@ -41,6 +41,7 @@ export default class Hearthstone extends React.Component {
 		event.preventDefault();
 		submitData('https://vs-solution-test.herokuapp.com/sell/account/hearthstone', data);
 		this.setState({modalActive: true});
+		setTimeout(() => window.scrollTo(0, 0), 100);
 	}
 	render() {
 		return(
@@ -98,7 +99,6 @@ export default class Hearthstone extends React.Component {
 						title="Укажите ссылку на Hsreplay"
 						placeholder="Например: https://hsreplay.net/example/909019032"
 						name="hsReplayLink"
-						required
 					>
 						<SocialSubtitle text="https://hsreplay.net/"/>
 					</TextInput>

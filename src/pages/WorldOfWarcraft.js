@@ -42,6 +42,7 @@ export default class WorldOfWarcraft extends React.Component {
 		event.preventDefault();
 		submitData('https://vs-solution-test.herokuapp.com/sell/account/wow', data);
 		this.setState({modalActive: true});
+		setTimeout(() => window.scrollTo(0, 0), 100);
 	}
 	render() {
 		return(

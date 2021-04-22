@@ -64,6 +64,7 @@ class Albion extends React.Component {
 		event.preventDefault();
 		submitData('https://vs-solution-test.herokuapp.com/sell/currency/albion', data);
 		this.setState({modalActiveSilver: true});
+		setTimeout(() => window.scrollTo(0, 0), 100);
 	}
 	render() {
 		return (

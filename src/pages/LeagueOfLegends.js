@@ -49,6 +49,7 @@ export default class LeagueOfLegends extends React.Component {
 		.then(response => console.log(response))
 		.catch(e => console.log(e));
 		this.setState({modalActive: true});
+		setTimeout(() => window.scrollTo(0, 0), 100);
 	}
 	render() {
 		return(
@@ -87,12 +88,15 @@ export default class LeagueOfLegends extends React.Component {
 						title="Укажите уровень Вашего профиля"
 						placeholder="Например: 10"
 						name="profileLevel"
+						type="number"
 						required
 					/>
 					<TextInput 
 						title="Укажите количество чемпионов на Вашем аккаунте"
 						placeholder="Максимально : 154"
 						name="numberChamps"
+						type="number"
+						max="154"
 						required
 					/>
 					<TextArea 

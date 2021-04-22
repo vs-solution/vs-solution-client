@@ -47,6 +47,7 @@ export default class Steam extends React.Component {
 		.then(response => console.log(response))
 		.catch(e => console.log(e));
 		this.setState({modalActive: true});
+		setTimeout(() => window.scrollTo(0, 0), 100);
 	}
 	render() {
 		return(
@@ -69,7 +70,11 @@ export default class Steam extends React.Component {
 					<Square figure="square-steam-form"/>
 					<Triangle figure="triangle-steam-form"/>
 				</Decor>
-				<Form submitHandler={this.submitSteam} id="form">
+				<Form 
+					submitHandler={this.submitSteam} 
+					id="form"
+					formTitle="Заполни анкету, чтобы продать вещи"	
+				>
 					<Modal active={this.state.modalActive} /> 
 					<img src="images/pics/steam/steam-item1.png" alt="" className="steam-item1"/>
 					<img src="images/pics/steam/steam-item2.png" alt="" className="steam-item2"/>

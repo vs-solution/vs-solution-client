@@ -36,6 +36,7 @@ class BrawlStars extends React.Component {
 		event.preventDefault();
 		submitData('https://vs-solution-test.herokuapp.com/sell/account/brawl', data);
 		this.setState({modalActive: true});
+		setTimeout(() => window.scrollTo(0, 0), 100);
 	}
 	render() {
 		return(
@@ -68,6 +69,7 @@ class BrawlStars extends React.Component {
 						title="Сколько кубков на Вашем аккаунте?"
 						placeholder="Например: 10 000"
 						name="cupNumber"
+						type="number"
 						required
 					/>
 					<TextArea 
