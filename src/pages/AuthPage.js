@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import ButtonSubmit from '../components/buttons/ButtonSubmit';
 import Footer from '../components/Footer/Footer';
 import TextInput from '../components/Form/components/TextInput/TextInput';
@@ -15,6 +15,9 @@ const AuthPage = () => {
 	const [regVisible, setRegVisible] = useState(false);
 	const [regMessage, setRegMessage] = useState('');
 	const [created, setCreated] = useState(false);
+	const history = useHistory();
+	const location = useLocation();
+	const {from} = location.state || { from: {pathname: "/"} };
 
 	const loginHandler = async (event) => {
 		event.preventDefault();
@@ -31,8 +34,11 @@ const AuthPage = () => {
 				if (response.status === 202) {
 					setLoginMessage(response.data.message);
 					setLoginVisible(true);
+				} else {
+					login(response.data.token, response.data.userId, response.data.name);
+					history.replace(from)
 				}
-				login(response.data.token, response.data.userId, response.data.name);
+				
 				console.log(response);
 			})
 		} catch (error) {

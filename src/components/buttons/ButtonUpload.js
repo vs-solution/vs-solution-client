@@ -15,6 +15,7 @@ export default class ButtonUpload extends React.Component {
 						type="file"
 						name={this.props.name}
 						id={this.props.id}
+						multiple
 				/>
 			</>
 			

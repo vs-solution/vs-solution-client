@@ -22,13 +22,17 @@ export default class LeagueOfLegends extends React.Component {
 		super(props)
 		this.state = {
 			modalActive: false,
-			userData: JSON.parse(localStorage.getItem('userData'))
+			userData: JSON.parse(localStorage.getItem('userData')),
 		}
 		this.submitLol = this.submitLol.bind(this);
 	}
 	
 	async submitLol(event) {
+		
 		const data = new FormData();
+		for (let key of event.target[5].files) {
+			data.append("screenshot", key);
+		}
 		data.append("gameName", "League of Legends")
 		data.append("userId", this.state.userData.userId);
 		data.append("name", this.state.userData.name);
@@ -37,9 +41,10 @@ export default class LeagueOfLegends extends React.Component {
 		data.append("numberChamps", event.target[2].value);
 		data.append("skins", event.target[3].value);
 		data.append("accountDescription", event.target[4].value);
-		data.append("screenshot", event.target[5].files[0]);
 		data.append("contacts", event.target[6].value);
 		
+		
+		console.log(event)
 		event.preventDefault();
 		await axios.post('https://vs-solution-test.herokuapp.com/sell/account/lol', data, {
 			headers: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navibar from './components/Navbar/Navbar';
@@ -14,8 +14,7 @@ import Other from './pages/Other';
 import AuthPage from './pages/AuthPage';
 import Account from './pages/Account';
 
-export const useRoutes = (isLogin) => {
-	if (isLogin) {
+export const useRoutes = () => {
 		return(
 			<div>
 				<Navibar />
@@ -29,16 +28,8 @@ export const useRoutes = (isLogin) => {
 					<Route path="/steam" component={Steam} />
 					<Route path="/other" component={Other} />
 					<Route path="/account" component={Account} />
-					<Redirect to="/" />
+					<Route path="/login" component={AuthPage} />
 				</Switch>
 			</div>
 		)
-	}
-	
-	return (
-		<Switch>
-			<Route path="/login" exact component={AuthPage} />
-			<Redirect to="/login" />
-		</Switch>
-	)
 };

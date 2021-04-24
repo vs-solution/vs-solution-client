@@ -34,6 +34,9 @@ class Albion extends React.Component {
 	
 	async submitAlbion(event) {
 		const data = new FormData();
+		for (let key of event.target[3].files) {
+			data.append("screenshot", key);
+		}
 		data.append("gameName", "Albion Online")
 		data.append("userId", this.state.userData.userId);
 		data.append("name", this.state.userData.name);
@@ -41,7 +44,6 @@ class Albion extends React.Component {
 		data.append("valueProperty", event.target[1].value);
 		data.append("price", event.target[2].value);
 		data.append("contacts", event.target[4].value);
-		data.append("screenshot", event.target[3].files[0]);
 		
 		event.preventDefault();
 		await axios.post('https://vs-solution-test.herokuapp.com/sell/account/albion', data, {
