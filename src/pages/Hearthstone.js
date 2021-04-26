@@ -26,18 +26,20 @@ export default class Hearthstone extends React.Component {
 	}
 
 	async submitHearthstone(event) {
-		const data = {
-			gameName: "Hearthstone",
-			userId: this.state.userData.userId,
-			name: this.state.userData.name,
-			numberLegendCard: event.target[0].value,
-			numberGoldenCard: event.target[1].value,
-			numberGolds: event.target[2].value,
-			numberDust: event.target[3].value,
-			hsReplayLink: event.target[4].value,
-			price: event.target[5].value,
-			contacts: event.target[6].value
+		const data = new FormData();
+		data.append("gameName", "Hearthstone");
+		if (this.state.userData) {
+			data.append("userId", this.state.userData.userId);
+			data.append("name", this.state.userData.name);
 		};
+		data.append("numberLegendCard", event.target[0].value);
+		data.append("numberGoldenCard", event.target[1].value);
+		data.append("numberGolds", event.target[2].value);
+		data.append("numberDust", event.target[3].value);
+		data.append("hsReplayLink", event.target[4].value);
+		data.append("price", event.target[5].value);
+		data.append("contacts", event.target[6].value);
+		
 		event.preventDefault();
 		submitData('https://vs-solution-test.herokuapp.com/sell/account/hearthstone', data);
 		this.setState({modalActive: true});

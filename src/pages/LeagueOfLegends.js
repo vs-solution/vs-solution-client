@@ -34,8 +34,10 @@ export default class LeagueOfLegends extends React.Component {
 			data.append("screenshot", key);
 		}
 		data.append("gameName", "League of Legends")
-		data.append("userId", this.state.userData.userId);
-		data.append("name", this.state.userData.name);
+		if (this.state.userData) {
+			data.append("userId", this.state.userData.userId);
+			data.append("name", this.state.userData.name);
+		}
 		data.append("serverLocation", event.target[0].value);
 		data.append("profileLevel", event.target[1].value);
 		data.append("numberChamps", event.target[2].value);

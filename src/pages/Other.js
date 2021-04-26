@@ -34,8 +34,10 @@ export default class Other extends React.Component {
 			data.append("screenshot", key);
 		}
 		data.append("gameName", event.target[0].value)
-		data.append("userId", this.state.userData.userId);
-		data.append("name", this.state.userData.name);
+		if (this.state.userData) {
+			data.append("userId", this.state.userData.userId);
+			data.append("name", this.state.userData.name);
+		};
 		data.append("accDescription", event.target[1].value);
 		data.append("price", event.target[2].value);
 		data.append("contacts", event.target[4].value);

@@ -23,16 +23,18 @@ class BrawlStars extends React.Component {
 	}
 	
 	async submitBrawl(event) {
-		const data = {
-			gameName: 'Brawl Stars',
-			userId: this.state.userData.userId,
-			name: this.state.userData.name,
-			legendPerson: event.target[0].value,
-			cupNumber: event.target[1].value,
-			skins: event.target[2].value,
-			price: event.target[3].value,
-			contacts: event.target[4].value
+		const data = new FormData();
+		data.append("gameName", "Brawl Stars")
+		if (this.state.userData) {
+			data.append("userId", this.state.userData.userId);
+			data.append("name", this.state.userData.name);
 		}
+		data.append("legendPerson", event.target[0].value);
+		data.append("cupNumber", event.target[1].value);
+		data.append("skins", event.target[2].value);
+		data.append("price", event.target[3].value);
+		data.append("contacts", event.target[4].value);
+		
 		event.preventDefault();
 		submitData('https://vs-solution-test.herokuapp.com/sell/account/brawl', data);
 		this.setState({modalActive: true});

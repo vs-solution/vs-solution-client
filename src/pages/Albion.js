@@ -26,7 +26,8 @@ class Albion extends React.Component {
 		this.state = {
 			modalActive: false,
 			modalActiveSilver: false,
-			userData: JSON.parse(localStorage.getItem('userData'))
+			userData: JSON.parse(localStorage.getItem('userData')),
+			gameName: "Albion Online"
 		}
 		this.submitAlbion = this.submitAlbion.bind(this);
 		this.sellSilver = this.sellSilver.bind(this);
@@ -37,9 +38,11 @@ class Albion extends React.Component {
 		for (let key of event.target[3].files) {
 			data.append("screenshot", key);
 		}
-		data.append("gameName", "Albion Online")
-		data.append("userId", this.state.userData.userId);
-		data.append("name", this.state.userData.name);
+		data.append("gameName", this.state.gameName)
+		if (this.state.userData) {
+			data.append("userId", this.state.userData.userId);
+			data.append("name", this.state.userData.name);
+		}
 		data.append("accountFame", event.target[0].value);
 		data.append("valueProperty", event.target[1].value);
 		data.append("price", event.target[2].value);
@@ -56,13 +59,15 @@ class Albion extends React.Component {
 		this.setState({modalActive: true});
 	}
 	async sellSilver(event) {
-		const data = {
-			gameName: "Albion Online",
-			userId: this.state.userData.userId,
-			name: this.state.userData.name,
-			numberSilver: event.target[0].value,
-			contacts: event.target[1].value
+		const data = new FormData();
+		if (this.state.userData) {
+			data.append("userId", this.state.userData.userId);
+			data.append("name", this.state.userData.name)
 		}
+		data.append("gameName", this.state.gameName)
+		data.append("numberSilver", event.target[0].value)
+		data.append("contacts", event.target[1].value)
+		
 		event.preventDefault();
 		submitData('https://vs-solution-test.herokuapp.com/sell/currency/albion', data);
 		this.setState({modalActiveSilver: true});

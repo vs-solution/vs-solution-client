@@ -32,9 +32,11 @@ export default class Steam extends React.Component {
 		for (let key of event.target[3].files) {
 			data.append("screenshot", key);
 		}
-		data.append("gameName", "Steam")
-		data.append("userId", this.state.userData.userId);
-		data.append("name", this.state.userData.name);
+		data.append("gameName", "Steam");
+		if (this.state.userData) {
+			data.append("userId", this.state.userData.userId);
+			data.append("name", this.state.userData.name);
+		}
 		data.append("itemName", event.target[0].value);
 		data.append("itemPrice", event.target[1].value);
 		data.append("dollar", event.target[2].value);

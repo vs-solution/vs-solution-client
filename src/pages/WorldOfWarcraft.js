@@ -28,17 +28,19 @@ export default class WorldOfWarcraft extends React.Component {
 	}
 	
 	async submitWow(event) {
-		const data = {
-			gameName: "World of Warcraft",
-			userId: this.state.userData.userId,
-			name: this.state.userData.name,
-			subscribe: event.target[0].checked ? event.target[0].value : event.target[1].value,
-			armoryLink: event.target[2].value,
-			goldsPerHero: event.target[3].value,
-			price: event.target[4].value,
-			accDescription: event.target[5].value,
-			contacts: event.target[6].value
-		}
+		const data = new FormData();
+		data.append("gameName", "World of Warcraft");
+		if (this.state.userData) {
+			data.append("userId", this.state.userData.userId);
+			data.append("name", this.state.userData.name);
+		};
+		data.append("subscribe", event.target[0].checked ? event.target[0].value : event.target[1].value);
+		data.append("armoryLink", event.target[2].value);
+		data.append("goldsPerHero", event.target[3].value);
+		data.append("price", event.target[4].value);
+		data.append("accDescription", event.target[5].value);
+		data.append("contacts", event.target[6].value);
+		
 		event.preventDefault();
 		submitData('https://vs-solution-test.herokuapp.com/sell/account/wow', data);
 		this.setState({modalActive: true});
