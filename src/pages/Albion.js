@@ -31,8 +31,17 @@ class Albion extends React.Component {
 		}
 		this.submitAlbion = this.submitAlbion.bind(this);
 		this.sellSilver = this.sellSilver.bind(this);
+		this.fileUploadHandler = this.fileUploadHandler.bind(this);
 	}
 	
+	fileUploadHandler (event) {
+		const btnUpload = document.querySelector(".button-upload");
+		if (event.target.files) {
+			btnUpload.classList.remove('non-file');
+			btnUpload.classList.add('has-file');
+		}
+	}
+
 	async submitAlbion(event) {
 		const data = new FormData();
 		for (let key of event.target[3].files) {
@@ -54,9 +63,9 @@ class Albion extends React.Component {
 				'Content-Type': 'multipart/form-data'
 			}
 		})
-		.then(response => console.log(response))
 		.catch(e => console.log(e));
 		this.setState({modalActive: true});
+		setTimeout(() => window.scrollTo(0, 0), 3000);
 	}
 	async sellSilver(event) {
 		const data = new FormData();
@@ -71,7 +80,7 @@ class Albion extends React.Component {
 		event.preventDefault();
 		submitData('https://vs-solution-test.herokuapp.com/sell/currency/albion', data);
 		this.setState({modalActiveSilver: true});
-		setTimeout(() => window.scrollTo(0, 0), 100);
+		setTimeout(() => window.scrollTo(0, 0), 3000);
 	}
 	render() {
 		return (
@@ -128,9 +137,10 @@ class Albion extends React.Component {
 					<Upload title="Загрузите скриншот вашего аккаунта">
 						<SocialSubtitle text="Без этого шага Ваша анкета будет недействительна" />
 						<ButtonUpload 
-							btnName="Загрузить файл"
+							btnName="Загрузить файл(ы)"
 							name="screenshot"
 							id="screenshot"
+							changeHandler={e => this.fileUploadHandler(e)}
 						/>
 					</Upload>
 					<TextInput 

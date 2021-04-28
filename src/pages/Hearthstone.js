@@ -43,7 +43,7 @@ export default class Hearthstone extends React.Component {
 		event.preventDefault();
 		submitData('https://vs-solution-test.herokuapp.com/sell/account/hearthstone', data);
 		this.setState({modalActive: true});
-		setTimeout(() => window.scrollTo(0, 0), 100);
+		setTimeout(() => window.scrollTo(0, 0), 3000);
 	}
 	render() {
 		return(

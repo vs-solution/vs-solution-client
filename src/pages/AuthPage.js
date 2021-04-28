@@ -97,7 +97,7 @@ const AuthPage = () => {
 								<ButtonSubmit btnText="Войти"/>
 									<p className="page-title-label text-center py-5">или</p>
 								<Link to="/register">
-									<p className="page-title-label text-center">Зарегистрируйтесь для входа в систему</p>
+									<p className="button-submit page-title-label text-center d-flex align-items-center justify-content-center">Зарегистрируйтесь для входа в систему</p>
 								</Link >
 							</Form>
 							<Footer />
@@ -133,9 +133,9 @@ const AuthPage = () => {
 									required
 								/>
 								<ButtonSubmit btnText="Зарегистрироваться"/>
-									<p className="page-title-label text-center py-5">или</p>
+								<p className="page-title-label text-center py-5">или</p>
 								<Link to="/login">
-									<p className="page-title-label text-center">Войдите в систему, если вы уже зарегистрированы</p>
+									<p className="button-submit page-title-label text-center d-flex align-items-center justify-content-center">Войдите в систему, если вы уже зарегистрированы</p>
 								</Link >
 							</Form>
 							<Footer />

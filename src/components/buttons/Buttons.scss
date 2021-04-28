@@ -66,3 +66,17 @@ input[type="file"] {
 	position: absolute;
 	z-index: -1;
 }
+.has-file::after {
+	content: "\2714";
+	position: absolute;
+	color: green;
+	font-size: 40px;
+	left: 42%;
+}
+.non-file::after {
+	content: '\2718';
+	position: absolute;
+	color: red;
+	font-size: 40px;
+	left: 42%;
+}

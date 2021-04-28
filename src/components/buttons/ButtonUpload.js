@@ -7,7 +7,7 @@ export default class ButtonUpload extends React.Component {
 			<>
 				<label 
 					htmlFor={this.props.id} 
-					className="button-upload d-flex justify-content-center align-items-center"
+					className="button-upload d-flex justify-content-center align-items-center non-file"
 				>
 					{this.props.btnName}
 				</label>
@@ -15,6 +15,7 @@ export default class ButtonUpload extends React.Component {
 						type="file"
 						name={this.props.name}
 						id={this.props.id}
+						onChange={this.props.changeHandler}
 						multiple
 				/>
 			</>

@@ -26,6 +26,15 @@ export default class Other extends React.Component {
 			userData: JSON.parse(localStorage.getItem('userData'))
 		}
 		this.submitOther = this.submitOther.bind(this);
+		this.fileUploadHandler = this.fileUploadHandler.bind(this);
+	}
+
+	fileUploadHandler (event) {
+		const btnUpload = document.querySelector(".button-upload");
+		if (event.target.files) {
+			btnUpload.classList.remove('non-file');
+			btnUpload.classList.add('has-file');
+		}
 	}
 	
 	async submitOther(event) {
@@ -51,7 +60,7 @@ export default class Other extends React.Component {
 		.then(response => console.log(response))
 		.catch(e => console.log(e));
 		this.setState({modalActive: true});
-		setTimeout(() => window.scrollTo(0, 0), 100);
+		setTimeout(() => window.scrollTo(0, 0), 3000);
 	}
 	render() {
 		return (
@@ -103,9 +112,10 @@ export default class Other extends React.Component {
 					<Upload title="Загрузите скриншот Вашего аккаунта/вещи">
 						<SocialSubtitle text="Без этого шага Ваша анкета будет недействительна"/>
 						<ButtonUpload 
-							btnName="Загрузить файл"
+							btnName="Загрузить файл(ы)"
 							name="screenshot"
 							id="screenshot"
+							changeHandler={e => this.fileUploadHandler(e)}
 						/>
 					</Upload>
 					<TextInput 

@@ -11,6 +11,8 @@ import ButtonChoise 	from '../components/buttons/ButtonChoise';
 import { submitData } 	from '../hooks/submit.hook';
 import { Modal } 		from '../components/Form/components/Modal/Modal';
 import './formImages.scss';
+import Upload from '../components/Form/components/Upload/Upload';
+import ButtonUpload from '../components/buttons/ButtonUpload';
 
 class BrawlStars extends React.Component {
 	constructor(props){
@@ -20,10 +22,22 @@ class BrawlStars extends React.Component {
 			userData: JSON.parse(localStorage.getItem('userData'))
 		}
 		this.submitBrawl = this.submitBrawl.bind(this);
+		this.fileUploadHandler = this.fileUploadHandler.bind(this);
+	}
+	
+	fileUploadHandler (event) {
+		const btnUpload = document.querySelector(".button-upload");
+		if (event.target.files) {
+			btnUpload.classList.remove('non-file');
+			btnUpload.classList.add('has-file');
+		}
 	}
 	
 	async submitBrawl(event) {
 		const data = new FormData();
+		for (let key of event.target[3].files) {
+			data.append("screenshot", key)
+		}
 		data.append("gameName", "Brawl Stars")
 		if (this.state.userData) {
 			data.append("userId", this.state.userData.userId);
@@ -32,13 +46,13 @@ class BrawlStars extends React.Component {
 		data.append("legendPerson", event.target[0].value);
 		data.append("cupNumber", event.target[1].value);
 		data.append("skins", event.target[2].value);
-		data.append("price", event.target[3].value);
-		data.append("contacts", event.target[4].value);
-		
+		data.append("price", event.target[4].value);
+		data.append("contacts", event.target[5].value);
 		event.preventDefault();
+		console.log(event);
 		submitData('https://vs-solution-test.herokuapp.com/sell/account/brawl', data);
 		this.setState({modalActive: true});
-		setTimeout(() => window.scrollTo(0, 0), 100);
+		setTimeout(() => window.scrollTo(0, 0), 3000);
 	}
 	render() {
 		return(
@@ -80,6 +94,15 @@ class BrawlStars extends React.Component {
 						name="skins"
 						required
 					/>
+					<Upload title="Загрузите скриншот вашего аккаунта">
+						<SocialSubtitle text="Без этого шага Ваша анкета будет недействительна" />
+						<ButtonUpload 
+							btnName="Загрузить файл(ы)"
+							name="screenshot"
+							id="screenshot"
+							changeHandler={e => this.fileUploadHandler(e)}
+						/>
+					</Upload>
 					<Slider 
 						title="Укажите цену за которую Вы хотите продать свой аккаунт"
 						name="price"
