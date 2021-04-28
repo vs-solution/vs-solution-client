@@ -58,7 +58,7 @@ class Albion extends React.Component {
 		data.append("contacts", event.target[4].value);
 		
 		event.preventDefault();
-		await axios.post('https://vs-solution-test.herokuapp.com/sell/account/albion', data, {
+		await axios.post('/sell/account/albion', data, {
 			headers: {
 				'Content-Type': 'multipart/form-data'
 			}
@@ -78,7 +78,7 @@ class Albion extends React.Component {
 		data.append("contacts", event.target[1].value)
 		
 		event.preventDefault();
-		submitData('https://vs-solution-test.herokuapp.com/sell/currency/albion', data);
+		submitData('/sell/currency/albion', data);
 		this.setState({modalActiveSilver: true});
 		setTimeout(() => window.scrollTo(0, 0), 3000);
 	}

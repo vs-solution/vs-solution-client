@@ -9,7 +9,7 @@ const Account = () => {
 	const [offer, setOffer] = useState('');
 	const getOffers = async () => {
 		try {
-			await axios.post('https://vs-solution-test.herokuapp.com/api/offer/account', { userId }, 
+			await axios.post('/api/offer/account', { userId }, 
 			{
 				headers: {
 					'Content-Type' : 'application/json'

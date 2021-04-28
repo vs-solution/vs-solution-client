@@ -50,7 +50,7 @@ class BrawlStars extends React.Component {
 		data.append("contacts", event.target[5].value);
 		event.preventDefault();
 		console.log(event);
-		submitData('https://vs-solution-test.herokuapp.com/sell/account/brawl', data);
+		submitData('/sell/account/brawl', data);
 		this.setState({modalActive: true});
 		setTimeout(() => window.scrollTo(0, 0), 3000);
 	}

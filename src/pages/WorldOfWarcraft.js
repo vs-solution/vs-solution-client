@@ -42,7 +42,7 @@ export default class WorldOfWarcraft extends React.Component {
 		data.append("contacts", event.target[6].value);
 		
 		event.preventDefault();
-		submitData('https://vs-solution-test.herokuapp.com/sell/account/wow', data);
+		submitData('/sell/account/wow', data);
 		this.setState({modalActive: true});
 		setTimeout(() => window.scrollTo(0, 0), 3000);
 	}

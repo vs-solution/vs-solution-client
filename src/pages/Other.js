@@ -52,7 +52,7 @@ export default class Other extends React.Component {
 		data.append("contacts", event.target[4].value);
 		
 		event.preventDefault();
-		await axios.post('https://vs-solution-test.herokuapp.com/sell/account/other', data, {
+		await axios.post('/sell/account/other', data, {
 			headers: {
 				'Content-Type': 'multipart/form-data'
 			}

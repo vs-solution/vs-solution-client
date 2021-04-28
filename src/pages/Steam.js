@@ -52,7 +52,7 @@ export default class Steam extends React.Component {
 		data.append("contacts", event.target[4].value);
 		
 		event.preventDefault();
-		await axios.post('https://vs-solution-test.herokuapp.com/sell/account/steam', data, {
+		await axios.post('/sell/account/steam', data, {
 			headers: {
 				'Content-Type': 'multipart/form-data'
 			}

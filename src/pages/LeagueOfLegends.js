@@ -57,7 +57,7 @@ export default class LeagueOfLegends extends React.Component {
 		
 		console.log(event)
 		event.preventDefault();
-		await axios.post('https://vs-solution-test.herokuapp.com/sell/account/lol', data, {
+		await axios.post('/sell/account/lol', data, {
 			headers: {
 				'Content-Type': 'multipart/form-data'
 			}

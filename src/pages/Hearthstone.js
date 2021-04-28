@@ -41,7 +41,7 @@ export default class Hearthstone extends React.Component {
 		data.append("contacts", event.target[6].value);
 		
 		event.preventDefault();
-		submitData('https://vs-solution-test.herokuapp.com/sell/account/hearthstone', data);
+		submitData('/sell/account/hearthstone', data);
 		this.setState({modalActive: true});
 		setTimeout(() => window.scrollTo(0, 0), 3000);
 	}

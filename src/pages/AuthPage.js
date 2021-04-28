@@ -26,7 +26,7 @@ const AuthPage = () => {
 				password: event.target[1].value
 			};
 		try {
-			await axios.post('https://vs-solution-test.herokuapp.com/api/auth/login', data, {
+			await axios.post('/api/auth/login', data, {
 				headers: {
 					'Content-Type': 'application/json'
 				}
@@ -54,7 +54,7 @@ const AuthPage = () => {
 			password: event.target[2].value
 		};
 		try {
-			await axios.post('https://vs-solution-test.herokuapp.com/api/auth/register', data, {
+			await axios.post('/api/auth/register', data, {
 				headers: {
 					'Content-Type': 'application/json'
 				}
